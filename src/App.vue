@@ -1,47 +1,35 @@
 <template>
   <div>
-    <div v-if="participantsList!=[]">
+    <div v-if="participantsList.length !== 0">
       <h1>Participants list</h1>
-      <ol>
-        <li
-          v-for="(participant, index) in participantsList"
-          :key="index"
-        >{{ participant.firstname}} {{ participant.lastname }}</li>
-      </ol>
+      <participants-list :list="participantsList" @remove="removeParticipant" />
     </div>
-
     <h3>New participant</h3>
-    <form @submit.prevent="addNewParticipant()">
-      <label>Firstname</label>
-      <input v-model="firstname" type="text" />
-      <label>Lastname</label>
-      <input v-model="lastname" type="text" />
-      <button>Add new participant</button>
-    </form>
+    <new-participant-form @submit="addNewParticipant" />
   </div>
 </template>
 
 <script>
+import NewParticipantForm from '@/components/NewParticipantForm.vue'
+import ParticipantsList from '@/components/ParticipantsList.vue'
+
 export default {
-  data() {
+  data () {
     return {
-      firstname: "",
-      lastname: "",
       participantsList: []
-    };
+    }
+  },
+  components: {
+    NewParticipantForm,
+    ParticipantsList
   },
   methods: {
-    addNewParticipant() {
-      console.log({
-        firstname: this.firstname,
-        lastname: this.lastname
-      });
-
-      this.participantsList.push({
-        firstname: this.firstname,
-        lastname: this.lastname
-      });
+    addNewParticipant (newParticipant) {
+      this.participantsList.push(newParticipant)
+    },
+    removeParticipant (index) {
+      this.participantsList.splice(index, 1)
     }
   }
-};
+}
 </script>
