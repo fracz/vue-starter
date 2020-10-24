@@ -1,4 +1,4 @@
-# vue-starter
+# prymus-vue
 
 ## Project setup
 ```
